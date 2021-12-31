@@ -3,25 +3,25 @@ library custom_switch;
 import 'package:flutter/material.dart';
 
 class CustomSwitch extends StatefulWidget {
-  final bool value;
-  final ValueChanged<bool> onChanged;
-  final Color activeColor;
-  final Color inactiveColor = Colors.grey;
-  final String activeText = 'On';
-  final String inactiveText = 'Off';
-  final Color activeTextColor = Colors.white70;
-  final Color inactiveTextColor = Colors.white70;
+  bool? value;
+  ValueChanged<bool>? onChanged;
+  Color? activeColor;
+  Color? inactiveColor = Colors.grey;
+  String? activeText = 'On';
+  String? inactiveText = 'Off';
+  Color? activeTextColor = Colors.white70;
+  Color? inactiveTextColor = Colors.white70;
 
-  const CustomSwitch({
-    Key key, 
-    this.value, 
-    this.onChanged, 
-    this.activeColor, 
-    this.inactiveColor, 
-    this.activeText,
-    this.inactiveText,
-    this.activeTextColor,
-    this.inactiveTextColor})
+  CustomSwitch(
+      {Key? key,
+      this.value,
+      this.onChanged,
+      this.activeColor,
+      this.inactiveColor,
+      this.activeText,
+      this.inactiveText,
+      this.activeTextColor,
+      this.inactiveTextColor})
       : super(key: key);
 
   @override
@@ -30,8 +30,8 @@ class CustomSwitch extends StatefulWidget {
 
 class _CustomSwitchState extends State<CustomSwitch>
     with SingleTickerProviderStateMixin {
-  Animation _circleAnimation;
-  AnimationController _animationController;
+  late Animation _circleAnimation;
+  late AnimationController _animationController;
 
   @override
   void initState() {
@@ -39,8 +39,8 @@ class _CustomSwitchState extends State<CustomSwitch>
     _animationController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 60));
     _circleAnimation = AlignmentTween(
-            begin: widget.value ? Alignment.centerRight : Alignment.centerLeft,
-            end: widget.value ? Alignment.centerLeft : Alignment.centerRight)
+            begin: widget.value! ? Alignment.centerRight : Alignment.centerLeft,
+            end: widget.value! ? Alignment.centerLeft : Alignment.centerRight)
         .animate(CurvedAnimation(
             parent: _animationController, curve: Curves.linear));
   }
@@ -58,8 +58,8 @@ class _CustomSwitchState extends State<CustomSwitch>
               _animationController.forward();
             }
             widget.value == false
-                ? widget.onChanged(true)
-                : widget.onChanged(false);
+                ? widget.onChanged!(true)
+                : widget.onChanged!(false);
           },
           child: Container(
             width: 70.0,
@@ -79,7 +79,7 @@ class _CustomSwitchState extends State<CustomSwitch>
                       ? Padding(
                           padding: const EdgeInsets.only(left: 4.0, right: 4.0),
                           child: Text(
-                            widget.activeText,
+                            widget.activeText!,
                             style: TextStyle(
                                 color: widget.activeTextColor,
                                 fontWeight: FontWeight.w900,
@@ -100,7 +100,7 @@ class _CustomSwitchState extends State<CustomSwitch>
                       ? Padding(
                           padding: const EdgeInsets.only(left: 4.0, right: 5.0),
                           child: Text(
-                            widget.inactiveText,
+                            widget.inactiveText!,
                             style: TextStyle(
                                 color: widget.inactiveTextColor,
                                 fontWeight: FontWeight.w900,
