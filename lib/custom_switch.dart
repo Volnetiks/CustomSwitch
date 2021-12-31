@@ -33,7 +33,7 @@ class CustomSwitch extends StatefulWidget {
         color: Colors.black,
       ),
       this.onIcon = const Icon(
-        Icons.cancel,
+        Icons.check,
         color: Colors.black,
       )})
       : super(key: key);
