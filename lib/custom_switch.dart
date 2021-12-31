@@ -3,25 +3,39 @@ library custom_switch;
 import 'package:flutter/material.dart';
 
 class CustomSwitch extends StatefulWidget {
-  bool? value;
+  bool value;
   ValueChanged<bool>? onChanged;
-  Color? activeColor;
-  Color? inactiveColor = Colors.grey;
-  String? activeText = 'On';
-  String? inactiveText = 'Off';
-  Color? activeTextColor = Colors.white70;
-  Color? inactiveTextColor = Colors.white70;
+  Color activeColor;
+  Color inactiveColor;
+  String activeText;
+  String inactiveText;
+  Color activeTextColor;
+  Color inactiveTextColor;
+  Color offCircleColor;
+  Color onCircleColor;
+  Icon offIcon;
+  Icon onIcon;
 
   CustomSwitch(
       {Key? key,
-      this.value,
+      this.value = false,
       this.onChanged,
-      this.activeColor,
-      this.inactiveColor,
-      this.activeText,
-      this.inactiveText,
-      this.activeTextColor,
-      this.inactiveTextColor})
+      this.activeColor = Colors.grey,
+      this.inactiveColor = Colors.grey,
+      this.activeText = 'On',
+      this.inactiveText = 'Off',
+      this.activeTextColor = Colors.white70,
+      this.inactiveTextColor = Colors.white70,
+      this.offCircleColor = Colors.white,
+      this.onCircleColor = Colors.white,
+      this.offIcon = const Icon(
+        Icons.cancel,
+        color: Colors.black,
+      ),
+      this.onIcon = const Icon(
+        Icons.cancel,
+        color: Colors.black,
+      )})
       : super(key: key);
 
   @override
@@ -39,8 +53,8 @@ class _CustomSwitchState extends State<CustomSwitch>
     _animationController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 60));
     _circleAnimation = AlignmentTween(
-            begin: widget.value! ? Alignment.centerRight : Alignment.centerLeft,
-            end: widget.value! ? Alignment.centerLeft : Alignment.centerRight)
+            begin: widget.value ? Alignment.centerRight : Alignment.centerLeft,
+            end: widget.value ? Alignment.centerLeft : Alignment.centerRight)
         .animate(CurvedAnimation(
             parent: _animationController, curve: Curves.linear));
   }
@@ -79,7 +93,7 @@ class _CustomSwitchState extends State<CustomSwitch>
                       ? Padding(
                           padding: const EdgeInsets.only(left: 4.0, right: 4.0),
                           child: Text(
-                            widget.activeText!,
+                            widget.activeText,
                             style: TextStyle(
                                 color: widget.activeTextColor,
                                 fontWeight: FontWeight.w900,
@@ -88,19 +102,29 @@ class _CustomSwitchState extends State<CustomSwitch>
                         )
                       : Container(),
                   Align(
-                    alignment: _circleAnimation.value,
-                    child: Container(
-                      width: 25.0,
-                      height: 25.0,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle, color: Colors.white),
-                    ),
-                  ),
+                      alignment: _circleAnimation.value,
+                      child: widget.value
+                          ? Container(
+                              width: 25,
+                              height: 25,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: widget.onCircleColor),
+                              child: widget.onIcon,
+                            )
+                          : Container(
+                              width: 25,
+                              height: 25,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: widget.offCircleColor),
+                              child: widget.offIcon,
+                            )),
                   _circleAnimation.value == Alignment.centerLeft
                       ? Padding(
                           padding: const EdgeInsets.only(left: 4.0, right: 5.0),
                           child: Text(
-                            widget.inactiveText!,
+                            widget.inactiveText,
                             style: TextStyle(
                                 color: widget.inactiveTextColor,
                                 fontWeight: FontWeight.w900,
